@@ -14,7 +14,6 @@ const config = require('./configs/config.js');
 
 // routers
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const testRouter = require('./routes/test.js');
 
 const app = express();
@@ -28,7 +27,7 @@ mongoose.connect(config.mongo, {
 });
 mongoose.connection.on('error', () => {
   console.error('MongoDB connection error:');
-})
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,8 +60,8 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// setting up routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/test', testRouter);
 
 // catch 404 and forward to error handler

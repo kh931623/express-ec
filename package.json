@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "debug": "node --nolazy --inspect-brk=9229 ./bin/www"
+    "debug": "node --nolazy --inspect-brk=9229 ./bin/www",
+    "clean": "del public/*.hot*"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
