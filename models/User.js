@@ -17,6 +17,11 @@ const UserSchema = mongoose.Schema({
         type: String,
         require: true,
     },
+    role: {
+        type: String,
+        require: true,
+        default: 'normal'
+    },
     created: {
         type: Date,
         default: Date.now
@@ -37,4 +42,4 @@ UserSchema
     .virtual('url')
     .get(() => `/users/${this._id}`);
 
-module.exports = mongoose.model('User', TestSchema);
+module.exports = mongoose.model('User', UserSchema);

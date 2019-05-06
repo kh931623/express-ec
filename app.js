@@ -14,6 +14,7 @@ const config = require('./configs/config.js');
 
 // routers
 const indexRouter = require('./routes/index');
+const apiRouter = require('./routes/api/index.js');
 const testRouter = require('./routes/test.js');
 
 const app = express();
@@ -62,6 +63,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // setting up routes
 app.use('/', indexRouter);
+app.use('/api', apiRouter);
 app.use('/test', testRouter);
 
 // catch 404 and forward to error handler
