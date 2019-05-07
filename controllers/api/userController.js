@@ -13,17 +13,39 @@ async function fetchUserList(req, res) {
 }
 
 function fetchUser(req, res) {
-    res.json({
-        id: req.params.id,
-        msg: 'hello'
-    });
+    try {
+        const data = req.body;
+        const user = User.findOne({
+            username: data.username,
+            password: data.password
+        });
+
+        if (!user) {
+            throw new Error('User Name or Password is wrong!');
+        }
+
+        res.json(responseService.createSuccessResponse({
+            user
+        }));
+    } catch (error) {
+        res.json(responseService.createErrorResponse(error.message));
+    }
 }
 
 async function createUser(req, res) {
     try {
         const newUser = new User(req.body);
         await newUser.save();
-        res.json(responseService.createSuccessResponse());
+
+        // write user info. into session (without password)
+        const userInfo = Object.assign({}, newUser.toObject());
+        delete userInfo.password;
+        delete userInfo.passwordConfirmation;
+        req.session.user = userInfo;
+
+        res.json(responseService.createSuccessResponse({
+            user: userInfo
+        }));
     } catch (error) {
         res.json(responseService.createErrorResponse(error.message));
     }
