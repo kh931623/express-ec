@@ -3,26 +3,24 @@ const responseService = require('../../services/responseService.js');
 
 async function fetchUserList(req, res) {
     try {
-        const users = await User.find(null, {
+        const condition = req.query;
+        const users = await User.find(condition, {
             password: 0
         }).exec();
-        res.json(users);
+        res.json(responseService.createSuccessResponse({
+            users
+        }));
     } catch (error) {
-        res.json([]);
+        res.json(responseService.createErrorResponse(error.message));
     }
 }
 
 function fetchUser(req, res) {
     try {
-        const data = req.body;
+        const { id } = req.params;
         const user = User.findOne({
-            username: data.username,
-            password: data.password
+            _id: id
         });
-
-        if (!user) {
-            throw new Error('User Name or Password is wrong!');
-        }
 
         res.json(responseService.createSuccessResponse({
             user

@@ -56,8 +56,12 @@ app.use(cookieParser());
 app.use(session({
   secret: 'express-and-vue-ec-demo',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  saveUninitialized: false,
+  rolling: true,
+  cookie: { 
+    // secure: true,
+    maxAge: 1000 * 60 * 30
+  }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
