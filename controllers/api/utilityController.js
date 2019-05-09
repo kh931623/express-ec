@@ -28,7 +28,7 @@ module.exports = {
     async fetchUserInfo(req, res) {
         req.session.touch();
         res.json(responseService.createSuccessResponse({
-            user: req.session.user
+            user: req.session.user || null
         }));
     },
     async logout(req, res) {

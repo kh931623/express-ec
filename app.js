@@ -60,7 +60,7 @@ app.use(session({
   rolling: true,
   cookie: { 
     // secure: true,
-    maxAge: 1000 * 60 * 30
+    maxAge: 1000 * 60 * 60 * 3
   }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
