@@ -10,3 +10,10 @@
 ## Category
 - name
 - description
+
+## Product
+- name
+- description
+- price
+- stock
+- category
