@@ -4,7 +4,7 @@ const responseService = require('../../services/responseService.js');
 module.exports = {
     async fetchProductList(req, res) {
         try {
-            const products = await Product.find().populate('category').exec();
+            const products = await Product.find(req.query).populate('category').exec();
             res.json(responseService.createSuccessResponse({
                 products
             }));
