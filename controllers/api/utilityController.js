@@ -25,14 +25,23 @@ module.exports = {
             res.json(responseService.createErrorResponse(error.message));
         }
     },
-    async fetchUserInfo(req, res) {
+    fetchUserInfo(req, res) {
         req.session.touch();
         res.json(responseService.createSuccessResponse({
             user: req.session.user || null
         }));
     },
-    async logout(req, res) {
+    logout(req, res) {
         req.session.user = null;
         res.json(responseService.createSuccessResponse());
+    },
+    updateShoppingCart(req, res) {
+        req.session.shoppingCart = req.body;
+        res.json(responseService.createSuccessResponse());
+    },
+    fetchShoppingCart(req, res) {
+        res.json(responseService.createSuccessResponse({
+            shoppingCart: req.session.shoppingCart
+        }));
     }
 }
