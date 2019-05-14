@@ -17,3 +17,8 @@
 - price
 - stock
 - category
+
+## Order
+- user
+- products
+- totalAmount
