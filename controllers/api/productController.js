@@ -1,10 +1,17 @@
 const Product = require('../../models/Product.js');
+const ProductSchema = Product.schema;
 const responseService = require('../../services/responseService.js');
 
 module.exports = {
     async fetchProductList(req, res) {
         try {
-            const products = await Product.find(req.query).populate('category').exec();
+            const { query } = req;
+            const transformedConditions = Object.keys(query).filter(key => typeof query[key] === 'string').reduce((prev, key) => {
+                prev[key] = new RegExp(query[key], 'i');
+                return prev;
+            }, {});
+            const finalConditions = Object.assign({}, query, transformedConditions);
+            const products = await Product.find().populate('category').where(finalConditions).exec();
             res.json(responseService.createSuccessResponse({
                 products
             }));

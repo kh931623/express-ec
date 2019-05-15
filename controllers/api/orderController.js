@@ -1,4 +1,5 @@
 const Order = require('../../models/Order.js');
+const Product = require('../../models/Product.js');
 const responseService = require('../../services/responseService.js');
 
 module.exports = {
@@ -16,7 +17,23 @@ module.exports = {
     async createOrder(req, res) {
         try {
             const order = new Order(req.body);
-            await order.save();
+            const { products } = req.body;
+            const updateParameters = products.map(product => {
+                return {
+                    condition: {
+                        _id: product._id
+                    },
+                    data: {
+                        stock: product.stock - product.quantity
+                    }
+                }
+            });
+            await Promise.all([
+                order.save(),
+                ...updateParameters.map(parameters => {
+                    return Product.findOneAndUpdate(parameters.condition, parameters.data).exec();
+                })
+            ])
 
             res.json(responseService.createSuccessResponse());
         } catch (error) {
