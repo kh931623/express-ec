@@ -10,7 +10,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 // self-defined
-// const config = require('./configs/config.js');
+const config = require('./configs/config.js');
 
 // routers
 const indexRouter = require('./routes/index');
@@ -23,8 +23,8 @@ const app = express();
 // console.log(process.env.codeDebug);
 
 // connect to mongodb
-mongoose.connect('mongodb+srv://masterc:80122399@cluster0-o3s5l.azure.mongodb.net/express_ec?retryWrites=true', {
-  useNewUrlParser: true
+mongoose.connect(config.mongo, {
+    useNewUrlParser: true
 });
 mongoose.connection.on('error', () => {
   console.error('MongoDB connection error:');
