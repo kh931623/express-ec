@@ -6,7 +6,10 @@ module.exports = {
     async fetchProductList(req, res) {
         try {
             const { query } = req;
-            const transformedConditions = Object.keys(query).filter(key => typeof query[key] === 'string').reduce((prev, key) => {
+            const targetSet = new Set([
+                'name'
+            ]);
+            const transformedConditions = Object.keys(query).filter(key => targetSet.has(key)).reduce((prev, key) => {
                 prev[key] = new RegExp(query[key], 'i');
                 return prev;
             }, {});
